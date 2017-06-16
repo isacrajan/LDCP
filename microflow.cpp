@@ -130,7 +130,7 @@ void Initialize()
 			}
 
 	//Initializing the velocity of lid
-	for (int i=0; i<NX; i++)
+	for (int i=1; i<NX-1; i++)
 	{
 		u[i][NY-1] = uo;
 		v[i][NY-1] = 0.0;
@@ -167,7 +167,7 @@ void AssignOldVector()
 
 void Collision()
 {
-	for(int j=0; j<NY; j++)
+	for(int j=0; j<NY-1; j++)
 		for(int i=0; i<NX; i++)
 		{
 			mydoub t1;
@@ -184,7 +184,6 @@ void Collision()
 
 void Stream()
 {
-    /*
     for(int j=0; j<NY; j++)
     {
         for(int i=NX-1; i>=1; i--) //Right to Left
@@ -215,50 +214,52 @@ void Stream()
         for(int i=NX-1; i>=1; i--)
             f[8][i][j]=f[8][i-1][j+1];
     }
-    */
+    /*
     int i,j;
-     for(i=0;i<NX;i++)
-      for(j=0;j<(NY-1);j++)
-        f[0][i][j]=f[0][i][j];
+    for(i=0;i<NX;i++)
+    for(j=0;j<(NY-1);j++)
+    f[0][i][j]=f[0][i][j];
 
-     for(i=NX-1;i>0;i--)
-      for(j=0;j<(NY-1);j++)
-       f[1][i][j]=f[1][i-1][j];
+    for(i=NX-1;i>0;i--)
+    for(j=0;j<(NY-1);j++)
+    f[1][i][j]=f[1][i-1][j];
 
-     for(i=0;i<NX;i++)
-      for(j=NY-2;j>0;j--)
-       f[2][i][j]=f[2][i][j-1];
+    for(i=0;i<NX;i++)
+    for(j=NY-2;j>0;j--)
+    f[2][i][j]=f[2][i][j-1];
 
-     for(i=0;i<(NX-1);i++)
-      for(j=0;j<(NY-1);j++)
-       f[3][i][j]=f[3][i+1][j];
+    for(i=0;i<(NX-1);i++)
+    for(j=0;j<(NY-1);j++)
+    f[3][i][j]=f[3][i+1][j];
 
-     for(i=0;i<NX;i++)
-      for(j=0;j<(NY-1);j++)
-       f[4][i][j]=f[4][i][j+1];
+    for(i=0;i<NX;i++)
+    for(j=0;j<(NY-1);j++)
+    f[4][i][j]=f[4][i][j+1];
 
-     for(i=NX-1;i>0;i--)
-      for(j=NY-2;j>0;j--)
-       f[5][i][j]=f[5][i-1][j-1];
+    for(i=NX-1;i>0;i--)
+    for(j=NY-2;j>0;j--)
+    f[5][i][j]=f[5][i-1][j-1];
 
-     for(i=0;i<(NX-1);i++)
-      for(j=NY-2;j>0;j--)
-       f[6][i][j]=f[6][i+1][j-1];
+    for(i=0;i<(NX-1);i++)
+    for(j=NY-2;j>0;j--)
+    f[6][i][j]=f[6][i+1][j-1];
 
-     for(i=0;i<(NX-1);i++)
-      for(j=0;j<(NY-1);j++)
-       f[7][i][j]=f[7][i+1][j+1];
+    for(i=0;i<(NX-1);i++)
+    for(j=0;j<(NY-1);j++)
+    f[7][i][j]=f[7][i+1][j+1];
 
-     for(i=NX-1;i>0;i--)
-      for(j=0;j<(NY-1);j++)
-       f[8][i][j]=f[8][i-1][j+1];
+    for(i=NX-1;i>0;i--)
+    for(j=0;j<(NY-1);j++)
+    f[8][i][j]=f[8][i-1][j+1];
+    */
+
 
 }
 
 void BoundaryCondition()
 {
 	mydoub rhon;
-	for(int j=1; j<NY-1; j++)
+	for(int j=0; j<NY; j++)
 	{
 		//Bounce Back on West Boundary
 		f[1][0][j]=f[3][0][j];
@@ -271,7 +272,7 @@ void BoundaryCondition()
 		f[6][NX-1][j]=sigma*f[8][NX-1][j] + (1.0-sigma)*f[5][NX-1][j];
 	}
 	//Bounce Back on South Boundary
-	for(int i=1; i<NX-1; i++)
+	for(int i=0; i<NX-1; i++)
 	{
 
 		f[2][i][0]=f[4][i][0];
@@ -301,7 +302,7 @@ void ComputeField()
 {
 	mydoub ssum, usum, vsum;
 	//Computation of the density
-	for(int j=0; j<NY; j++)
+	for(int j=0; j<NY-1; j++)
 	{
 		for(int i=0; i<NX; i++)
 		{
@@ -387,7 +388,7 @@ void WriteToFile()
 	ofstream myfile2 ("YcUc.dat");
 	for(int j=0; j<NY; j++)
 	{
-		myfile2 << j*Dy << "\t" << (u[(NX-1)/2][j])/(2*uo) << endl;
+		myfile2 << j*Dy << "\t" << (u[(NX-1)/2][j])/(uo) << endl;
 	}
 	myfile2.close();
 
@@ -395,7 +396,7 @@ void WriteToFile()
 	ofstream myfile3 ("XcVc.dat");
 	for(int i=0; i<NX; i++)
 	{
-		myfile3 << i*Dx << "\t" << (v[i][(NY-1)/2])/(2*uo) << endl;
+		myfile3 << i*Dx << "\t" << (v[i][(NY-1)/2])/(uo) << endl;
 	}
 	myfile3.close();
 }
