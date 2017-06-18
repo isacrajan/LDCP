@@ -365,7 +365,7 @@ void WriteToFile()
 
 	//Writing data to file, X,Y,U,V -----------------------------
 	//To be postprocessed using Tecplot
-	ofstream myfile ("XYUV.dat");
+	ofstream myfile ("XYUV_Kn0.01sig0.7.plt");
 	myfile << "VARIABLES=\"X\",\"Y\",\"U\",\"V\"\n" << endl;
 	myfile << "ZONE  F=POINT\n" << endl;
 	myfile << "I=" << NX << ", J=" << NY << endl;
@@ -385,7 +385,7 @@ void WriteToFile()
 
 	//Writing center line data to file, Yc vs Uc
 	//Will be plotted using Python
-	ofstream myfile2 ("YcUc.dat");
+	ofstream myfile2 ("YcUc_Kn0.01sig0.7.plt");
 	for(int j=0; j<NY; j++)
 	{
 		myfile2 << j*Dy << "\t" << (u[(NX-1)/2][j])/(uo) << endl;
@@ -393,7 +393,7 @@ void WriteToFile()
 	myfile2.close();
 
 	//Writing Xc vs Vc data to file
-	ofstream myfile3 ("XcVc.dat");
+	ofstream myfile3 ("XcVc_Kn0.01sig0.7.plt");
 	for(int i=0; i<NX; i++)
 	{
 		myfile3 << i*Dx << "\t" << (v[i][(NY-1)/2])/(uo) << endl;
